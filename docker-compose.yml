@@ -1,0 +1,11 @@
+services:
+  mongodb:
+    image: mongo:6
+    container_name: notification-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - notification_mongo_data:/data/db
+
+volumes:
+  notification_mongo_data:
