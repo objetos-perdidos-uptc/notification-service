@@ -9,7 +9,7 @@ class BrevoEmailSender(IEmailSender):
     def __init__(self):
         self.api_key = os.getenv("BREVO_API_KEY")
         self.api_url = "https://api.brevo.com/v3/smtp/email"
-        self.sender_email = "notificaciones@seeker-uptc.com"
+        self.sender_email = "nicolasdavid.lizarazo@gmail.com"
         self.sender_name = "Seeeker UPTC"
 
     async def send_high_match_email(self, to_email: str, subject: str, body: str) -> None:
