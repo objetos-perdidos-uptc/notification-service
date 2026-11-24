@@ -2,6 +2,7 @@ import aio_pika
 import json
 import os
 from app.application.use_cases.send_notification import SendHighMatchNotificationUseCase
+from app.main import EMAILS_SENT, EMAILS_FAILED
 
 class RabbitMQConsumer:
     def __init__(self, use_case: SendHighMatchNotificationUseCase):
@@ -34,6 +35,18 @@ class RabbitMQConsumer:
                     user_name=nombre_usuario, 
                     score=score
                 )
+                try:
+                    await self.use_case.execute(
+                        to_email=email_destino,
+                        user_name=nombre_usuario,
+                        score=score
+                    )
+                    EMAILS_SENT.inc() # <-- Suma 1 si fue exitoso
+                except Exception as e:
+                    print(f"Error enviando correo: {e}")
+                    EMAILS_FAILED.inc() # <-- Suma 1 si falló
+
+                
 
         # Empezamos a escuchar
         await queue.consume(process_message)
